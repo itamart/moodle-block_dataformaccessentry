@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') or die;
 
 $plugin->component = 'block_dataformaccessentry';
 $plugin->version  = 2014041200;
+$plugin->release = '2.6.0';
 $plugin->requires = 2013111800;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array('mod_dataform' => 2014041200);
