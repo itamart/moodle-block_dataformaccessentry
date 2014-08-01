@@ -21,38 +21,38 @@
  */
 
 defined('MOODLE_INTERNAL') or die;
- 
+
 /**
  *
  */
 class block_dataformaccessentry extends block_base {
-    
+
     public $dataformid;
 
-    static function get_extra_capabilities() {
+    static public function get_extra_capabilities() {
         $capabilities = array();
-        // Own Entry
+        // Own Entry.
         $capabilities[] = 'mod/dataform:entryownview';
         $capabilities[] = 'mod/dataform:entryownexport';
         $capabilities[] = 'mod/dataform:entryownadd';
         $capabilities[] = 'mod/dataform:entryownupdate';
         $capabilities[] = 'mod/dataform:entryowndelete';
-        
-        // Group entry
+
+        // Group entry.
         $capabilities[] = 'mod/dataform:entrygroupview';
         $capabilities[] = 'mod/dataform:entrygroupexport';
         $capabilities[] = 'mod/dataform:entrygroupadd';
         $capabilities[] = 'mod/dataform:entrygroupupdate';
         $capabilities[] = 'mod/dataform:entrygroupdelete';
-        
-        // Any entry
+
+        // Any entry.
         $capabilities[] = 'mod/dataform:entryanyview';
         $capabilities[] = 'mod/dataform:entryanyexport';
         $capabilities[] = 'mod/dataform:entryanyadd';
         $capabilities[] = 'mod/dataform:entryanyupdate';
         $capabilities[] = 'mod/dataform:entryanydelete';
-        
-        // Anonymous entry
+
+        // Anonymous entry.
         $capabilities[] = 'mod/dataform:entryanonymousview';
         $capabilities[] = 'mod/dataform:entryanonymousexport';
         $capabilities[] = 'mod/dataform:entryanonymousadd';
@@ -63,30 +63,30 @@ class block_dataformaccessentry extends block_base {
     }
 
     /**
-     * Set the applicable formats for this block
+     * Set the applicable formats for this block.
      * @return array
      */
-    function applicable_formats() {
+    public function applicable_formats() {
         return array('mod-dataform-access-index' => true);
     }
 
     /**
      *
      */
-    function init() {
-        $this->title = get_string('pluginname','block_dataformaccessentry');
+    public function init() {
+        $this->title = get_string('pluginname', 'block_dataformaccessentry');
     }
 
     /**
      *
      */
-    function specialization() {
+    public function specialization() {
         global $DB;
-        
+
         if (!empty($this->config->name)) {
             $this->title = $this->config->name;
         }
-        
+
         $dataformcmid = $DB->get_field('context', 'instanceid', array('id' => $this->instance->parentcontextid));
         $this->dataformid = $DB->get_field('course_modules', 'instance', array('id' => $dataformcmid));
     }
@@ -94,14 +94,14 @@ class block_dataformaccessentry extends block_base {
     /**
      *
      */
-    function instance_allow_multiple() {
+    public function instance_allow_multiple() {
         return true;
     }
 
     /**
      *
      */
-    function get_content() {
+    public function get_content() {
         return null;
     }
 
@@ -115,13 +115,13 @@ class block_dataformaccessentry extends block_base {
         if (empty($data['entry'])) {
             return false;
         }
-    
-        // Get the filter
+
+        // Get the filter.
         $filter = $this->get_filter($data);
 
-        // Get entries manager
+        // Get entries manager.
         $entries = new mod_dataform_entry_manager($this->dataformid);
-        // Check if entries found
+        // Check if entries found.
         if ($entries->count_entries(array('filter' => $filter))) {
             return true;
         }
@@ -137,19 +137,19 @@ class block_dataformaccessentry extends block_base {
     protected function get_filter(array $data) {
         $config = $this->config;
 
-        // Get the filter
+        // Get the filter.
         $fm = mod_dataform_filter_manager::instance($this->dataformid);
         $filterid = !empty($config->filterid) ? $config->filterid : 0;
         $filter = $fm->get_filter_by_id($filterid);
-        
-        // Add custom search
+
+        // Add custom search.
         if (!empty($config->customsearch)) {
             $filter->append_search_options($config->customsearch);
         }
 
-        // Add a search criterion for the entry id
+        // Add a search criterion for the entry id.
         $filter->eids = $data['entry']->id;
-        
+
         return $filter;
     }
 
