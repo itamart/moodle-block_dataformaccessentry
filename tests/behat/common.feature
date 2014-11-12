@@ -3,5 +3,5 @@ Feature: Block dataform access entry
 
     @javascript
     Scenario: Manage access rule
-        Given I run dataform scenario "manage access rule" with:
+        Given I run dataform scenario "access rule management" with:
             | ruletype | entry |
