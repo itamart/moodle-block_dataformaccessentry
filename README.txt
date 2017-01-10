@@ -5,7 +5,7 @@ The entry access rules allow for controlling access to entries that have a speci
 
 Release:
 ------------
-2.8.5
+2.8.12
 
 Documentation:
 --------------
