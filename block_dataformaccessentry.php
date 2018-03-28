@@ -112,8 +112,22 @@ class block_dataformaccessentry extends block_base {
      * @return bool
      */
     public function is_applicable(array $data) {
+        // Must have an entry.
         if (empty($data['entry'])) {
             return false;
+        }
+
+        // If there are designated fields and our field not included, not applicable.
+        if (!empty($this->config->fieldselection)) {
+            // Must have a field.
+            if (empty($data['field'])) {
+                return false;
+            }
+            $field = $data['field'];
+
+            if (!in_array($field->name, $this->config->fields)) {
+                return false;
+            }
         }
 
         // Get the filter.

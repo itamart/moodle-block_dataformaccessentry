@@ -29,6 +29,11 @@ class block_dataformaccessentry_edit_form extends block_edit_form {
         // Common elements.
         $ruleformhelper::general_definition($mform, $this->block->dataformid, 'config_');
 
+        // Fields selector.
+        $mform->addElement('header', 'fieldshdr', get_string('fields', 'dataform'));
+        $mform->setExpanded('fieldshdr');
+        $ruleformhelper::fields_selection_definition($mform, $this->block->dataformid, 'config_');
+
         // Filter.
         $mform->addElement('header', 'filterhdr', get_string('filter', 'dataform'));
         $mform->setExpanded('filterhdr');
